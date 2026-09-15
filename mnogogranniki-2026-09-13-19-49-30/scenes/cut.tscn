@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cl0j7rqnl2m4t"]
+
+[sub_resource type="Gradient" id="Gradient_avtor"]
+offsets = PackedFloat32Array(0.37349397, 0.43373495)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tsilm"]
+gradient = SubResource("Gradient_avtor")
+width = 30
+
+[node name="Cut" type="Sprite2D" unique_id=1941712205]
+texture_repeat = 2
+texture = SubResource("GradientTexture1D_tsilm")
+region_enabled = true
+region_rect = Rect2(0, 0, 0, 10)

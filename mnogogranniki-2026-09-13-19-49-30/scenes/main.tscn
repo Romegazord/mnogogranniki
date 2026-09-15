@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://7vygljhbvqg5"]
+
+[ext_resource type="PackedScene" uid="uid://kfg5qdlfuu3y" path="res://scenes/camera_3d.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://4kvwgy8y0xjk" path="res://scripts/workbench.gd" id="1_sugp2"]
+[ext_resource type="PackedScene" uid="uid://rtndccouxtkw" path="res://scenes/gui.tscn" id="2_0wfyh"]
+[ext_resource type="Shader" uid="uid://cr3cp52gnyug0" path="res://shaders/grid.gdshader" id="4_jyhfs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tsilm"]
+render_priority = 0
+shader = ExtResource("4_jyhfs")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tsilm"]
+
+[node name="Main" type="Node3D" unique_id=1001531468]
+script = ExtResource("1_sugp2")
+
+[node name="Camera3D" parent="." unique_id=992217491 instance=ExtResource("1_o5qli")]
+transform = Transform3D(1, 0, 0, 0, 0.9845032, 0.17536671, 0, -0.17536671, 0.9845032, 0, 0.8178594, 2.2696676)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1693129531]
+transform = Transform3D(0.9613715, 0.14191523, 0.23584932, -0.27525413, 0.49566287, 0.8237436, 0, -0.8568421, 0.5155789, 0, 1.8688016, 0)
+
+[node name="GUI" parent="." unique_id=1423059524 instance=ExtResource("2_0wfyh")]
+metadata/camera = NodePath("../Camera3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=677246751]
+transform = Transform3D(54.670017, 0, 0, 0, 1, 0, 0, 0, 54.670017, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_tsilm")
+mesh = SubResource("PlaneMesh_tsilm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=555304028]
+transform = Transform3D(54.670017, 0, 0, 0, -1, -4.7794047e-06, 0, 8.742278e-08, -54.670017, 0.10542297, -0.0075969696, 0.03235078)
+material_override = SubResource("ShaderMaterial_tsilm")
+mesh = SubResource("PlaneMesh_tsilm")
+
+[node name="Polyhedrons" type="Node3D" parent="." unique_id=304588834]

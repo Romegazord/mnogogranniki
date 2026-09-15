@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://kfg5qdlfuu3y"]
+
+[ext_resource type="Script" uid="uid://bxbtieq501r3" path="res://scripts/camera.gd" id="1_v4apc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_choun"]
+sky_top_color = Color(0.172286, 0.17371985, 0.120567106, 1)
+sky_horizon_color = Color(0.0760489, 0.07903411, 0.0837465, 1)
+sky_cover_modulate = Color(0.40545154, 0.40545157, 0.40545157, 1)
+ground_horizon_color = Color(0.14418608, 0.14868161, 0.15577835, 1)
+sun_curve = 1.0167912e-05
+
+[sub_resource type="Sky" id="Sky_tipki"]
+sky_material = SubResource("ProceduralSkyMaterial_choun")
+
+[sub_resource type="Environment" id="Environment_o6xl0"]
+background_mode = 2
+sky = SubResource("Sky_tipki")
+
+[node name="Camera3D" type="Camera3D" unique_id=992217491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46492708, -2.0776632, -1.4155903)
+environment = SubResource("Environment_o6xl0")
+script = ExtResource("1_v4apc")

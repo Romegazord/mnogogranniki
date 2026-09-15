@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ck80bcanikehc"]
+
+[ext_resource type="Theme" uid="uid://bbgcxk5e8tdk6" path="res://themes/default_theme.tres" id="1_uonk4"]
+
+[node name="Tool" type="Button" unique_id=1043851068]
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+theme = ExtResource("1_uonk4")
+toggle_mode = true
+icon_alignment = 1
+metadata/OnTouch = ""
+metadata/OnRelease = ""
+metadata/OnDrag = ""

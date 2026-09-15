@@ -1,0 +1,152 @@
+[gd_scene format=3 uid="uid://rtndccouxtkw"]
+
+[ext_resource type="Theme" uid="uid://bbgcxk5e8tdk6" path="res://themes/default_theme.tres" id="1_efmwq"]
+[ext_resource type="Script" uid="uid://ylmd1210w6i0" path="res://scripts/gui.gd" id="1_mfius"]
+[ext_resource type="Texture2D" uid="uid://dn3ubq1y3mjv6" path="res://sprites/ortho.png" id="3_ynd5l"]
+[ext_resource type="PackedScene" uid="uid://ck80bcanikehc" path="res://scenes/tool.tscn" id="4_b8iy7"]
+[ext_resource type="Texture2D" uid="uid://c24ab427g614b" path="res://sprites/knife.png" id="5_jqlde"]
+
+[node name="GUI" type="CanvasLayer" unique_id=1423059524]
+script = ExtResource("1_mfius")
+metadata/camera = NodePath("")
+
+[node name="OrthoToggle" type="Button" parent="." unique_id=1315331261]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -276.0
+offset_top = 31.0
+offset_right = -222.0
+offset_bottom = 85.0
+grow_horizontal = 2
+theme = ExtResource("1_efmwq")
+toggle_mode = true
+icon = ExtResource("3_ynd5l")
+icon_alignment = 1
+
+[node name="RightSidebar" type="Panel" parent="." unique_id=587828096]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -222.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Tools" type="Panel" parent="RightSidebar" unique_id=101949527]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.51100004
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.12802124
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ToolsScroll" type="ScrollContainer" parent="RightSidebar/Tools" unique_id=1568473948]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 31.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_efmwq")
+horizontal_scroll_mode = 0
+
+[node name="FlowContainer" type="HFlowContainer" parent="RightSidebar/Tools/ToolsScroll" unique_id=1890675700]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Tool" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=1043851068 instance=ExtResource("4_b8iy7")]
+layout_mode = 2
+icon = ExtResource("5_jqlde")
+metadata/OnTouch = "cut_on_touch"
+metadata/OnRelease = "cut_on_release"
+
+[node name="TabBar" type="TabBar" parent="RightSidebar/Tools" unique_id=465289084]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+current_tab = 0
+tab_count = 3
+tab_0/title = "Draw"
+tab_0/tooltip = "Points, lines, planes"
+tab_1/title = "Modify"
+tab_1/tooltip = "Move, cut"
+tab_2/title = "Calculate"
+tab_2/tooltip = "Measure, calculate, intersect"
+
+[node name="Tree" type="Tree" parent="RightSidebar" unique_id=629722918]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.51100004
+offset_bottom = -0.12802124
+grow_horizontal = 2
+
+[node name="TopBar" type="Panel" parent="." unique_id=676470547]
+anchors_preset = -1
+anchor_right = 1.0
+offset_right = -223.0
+offset_bottom = 31.0
+grow_horizontal = 2
+
+[node name="FlowContainer" type="HFlowContainer" parent="TopBar" unique_id=1555881230]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Add" type="MenuButton" parent="TopBar/FlowContainer" unique_id=1134365612]
+layout_mode = 2
+text = "Add"
+item_count = 1
+popup/item_0/text = "Cube"
+popup/item_0/id = 0
+
+[node name="VFlowContainer" type="VFlowContainer" parent="." unique_id=1709009814]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 271.0
+offset_right = 40.0
+grow_vertical = 2
+
+[node name="ToggleCameraRotation" type="Button" parent="VFlowContainer" unique_id=95907236]
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 2
+theme = ExtResource("1_efmwq")
+toggle_mode = true
+text = "R"
+icon_alignment = 1
+
+[node name="ToggleCameraMove" type="Button" parent="VFlowContainer" unique_id=433022412]
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 2
+theme = ExtResource("1_efmwq")
+toggle_mode = true
+text = "M"
+icon_alignment = 1
+
+[node name="ToggleCameraZoom" type="Button" parent="VFlowContainer" unique_id=1712056889]
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 2
+theme = ExtResource("1_efmwq")
+toggle_mode = true
+text = "Z"
+icon_alignment = 1
+
+[connection signal="toggled" from="OrthoToggle" to="." method="_on_ortho_toggle_toggled"]
+[connection signal="toggled" from="VFlowContainer/ToggleCameraRotation" to="." method="_on_toggle_camera_rotation_toggled"]
+[connection signal="toggled" from="VFlowContainer/ToggleCameraMove" to="." method="_on_toggle_camera_move_toggled"]
+[connection signal="toggled" from="VFlowContainer/ToggleCameraZoom" to="." method="_on_toggle_camera_zoom_toggled"]
