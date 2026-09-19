@@ -8,5 +8,10 @@ void vertex() {
 
 void fragment() {
 	ALBEDO = color;
-	ALPHA = .3;
+		if (int((SCREEN_UV.x+SCREEN_UV.y)*10000.0) % 200 > 100){
+		ALPHA = 0.3;
+	}
+	else{
+		ALPHA = 0.0;
+	}
 }

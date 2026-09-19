@@ -5,6 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://dn3ubq1y3mjv6" path="res://sprites/ortho.png" id="3_ynd5l"]
 [ext_resource type="PackedScene" uid="uid://ck80bcanikehc" path="res://scenes/tool.tscn" id="4_b8iy7"]
 [ext_resource type="Texture2D" uid="uid://c24ab427g614b" path="res://sprites/knife.png" id="5_jqlde"]
+[ext_resource type="Texture2D" uid="uid://c4g2cg1c5h2o" path="res://sprites/select.png" id="5_p54wi"]
+[ext_resource type="Texture2D" uid="uid://cvgfue0qhjgii" path="res://sprites/knifeTriangle.png" id="6_08a8y"]
+[ext_resource type="Texture2D" uid="uid://dkqsydxqitwl6" path="res://sprites/edgeMiddle.png" id="7_7yii4"]
+[ext_resource type="Texture2D" uid="uid://dlgi8f560x87o" path="res://sprites/deletePoint.png" id="8_4yt8u"]
+[ext_resource type="Texture2D" uid="uid://ouxg8iq4scv0" path="res://sprites/intersectLines.png" id="9_xki8e"]
 
 [node name="GUI" type="CanvasLayer" unique_id=1423059524]
 script = ExtResource("1_mfius")
@@ -59,11 +64,44 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Tool" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=1043851068 instance=ExtResource("4_b8iy7")]
+[node name="SelectPolyhedron" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=1043851068 instance=ExtResource("4_b8iy7")]
+layout_mode = 2
+icon = ExtResource("5_p54wi")
+metadata/OnTouch = "select_polyhedron_on_touch"
+
+[node name="Knife" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=409494335 instance=ExtResource("4_b8iy7")]
 layout_mode = 2
 icon = ExtResource("5_jqlde")
 metadata/OnTouch = "cut_on_touch"
 metadata/OnRelease = "cut_on_release"
+metadata/LocksRotation = true
+
+[node name="KnifeTrianle" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=312156547 instance=ExtResource("4_b8iy7")]
+layout_mode = 2
+icon = ExtResource("6_08a8y")
+metadata/OnTouch = "cut_triangle_on_touch"
+metadata/OnUnpick = "cut_triangle_on_unpick"
+
+[node name="EdgeMiddle" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=1055654844 instance=ExtResource("4_b8iy7")]
+layout_mode = 2
+icon = ExtResource("7_7yii4")
+metadata/OnTouch = "line_middle_on_touch"
+metadata/OnUnpick = "line_middle_on_unpick"
+
+[node name="IntersectLines" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=891955521 instance=ExtResource("4_b8iy7")]
+layout_mode = 2
+icon = ExtResource("9_xki8e")
+metadata/OnTouch = "intersect_lines_on_touch"
+metadata/OnUnpick = "intersect_lines_on_unpick"
+
+[node name="DeletePoint" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=491196382 instance=ExtResource("4_b8iy7")]
+layout_mode = 2
+icon = ExtResource("8_4yt8u")
+metadata/OnTouch = "remove_point_on_touch"
+
+[node name="DeletePolyhedron" parent="RightSidebar/Tools/ToolsScroll/FlowContainer" unique_id=803076948 instance=ExtResource("4_b8iy7")]
+layout_mode = 2
+metadata/OnTouch = "remove_polyhedron_on_touch"
 
 [node name="TabBar" type="TabBar" parent="RightSidebar/Tools" unique_id=465289084]
 layout_mode = 1
@@ -73,11 +111,11 @@ offset_bottom = 31.0
 grow_horizontal = 2
 current_tab = 0
 tab_count = 3
-tab_0/title = "Draw"
+tab_0/title = "Points"
 tab_0/tooltip = "Points, lines, planes"
-tab_1/title = "Modify"
+tab_1/title = "Lines"
 tab_1/tooltip = "Move, cut"
-tab_2/title = "Calculate"
+tab_2/title = "Planes"
 tab_2/tooltip = "Measure, calculate, intersect"
 
 [node name="Tree" type="Tree" parent="RightSidebar" unique_id=629722918]

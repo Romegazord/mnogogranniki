@@ -23,7 +23,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	Controls.call(delta)
+	AndroidControlInterface.call(delta)
 	
 func chooseControlInterface():
 	var os = OS.get_name()
@@ -78,17 +78,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			if event.button_index == MOUSE_BUTTON_LEFT:
-				if OnTouch: Tools.call(OnTouch, get_viewport().get_mouse_position())
+				pass
+				#if OnTouch: Tools.call(OnTouch, get_viewport().get_mouse_position())
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				Tools.zoom_camera(1+ZOOM_STEP)
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				Tools.zoom_camera(1-ZOOM_STEP)
 		else:
 			if event.button_index == MOUSE_BUTTON_LEFT:
-				if OnRelease: Tools.call(OnRelease, get_viewport().get_mouse_position())
+				pass
+				#if OnRelease: Tools.call(OnRelease, get_viewport().get_mouse_position())
 	if event is InputEventScreenTouch:
 		if event.is_pressed():
 			active_touches[event.index]=event.position
+			print("finger on touch")
+			if OnTouch and len(active_touches)==1: Tools.call(OnTouch, event.position)
 		else:
 			active_touches.erase(event.index)
 			if len(active_touches)>=1:
@@ -96,6 +100,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				last_multifinger_center = get_multifinger_center()
 				last_multifinger_distance = get_multifinger_distance()
 			else:
+				if OnRelease: Tools.call(OnRelease, event.position)
 				last_finger_pos = null
 				last_multifinger_center = null
 				last_multifinger_distance = null

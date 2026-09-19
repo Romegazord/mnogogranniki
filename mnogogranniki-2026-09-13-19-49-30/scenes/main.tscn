@@ -34,3 +34,5 @@ material_override = SubResource("ShaderMaterial_tsilm")
 mesh = SubResource("PlaneMesh_tsilm")
 
 [node name="Polyhedrons" type="Node3D" parent="." unique_id=304588834]
+
+[node name="Points" type="Node3D" parent="." unique_id=387114200]

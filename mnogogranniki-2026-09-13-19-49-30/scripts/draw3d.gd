@@ -1,10 +1,16 @@
 extends Node
 
+var DEFAULT_MATERIAL = ORMMaterial3D.new()
 
-func point(pos:Vector3, radius:float = 0.05, color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
+func _ready() -> void:
+	DEFAULT_MATERIAL.no_depth_test = true
+
+var selected_material = DEFAULT_MATERIAL
+
+func point(parent, pos:Vector3, radius:float = 0.02) -> MeshInstance3D:
 	var meshInstance = MeshInstance3D.new()
 	var sphereMesh = SphereMesh.new()
-	var material = ORMMaterial3D.new()
+	var material = selected_material
 	
 	meshInstance.position = pos
 	meshInstance.cast_shadow = false
@@ -14,17 +20,14 @@ func point(pos:Vector3, radius:float = 0.05, color:Color = Color.ALICE_BLUE) -> 
 	sphereMesh.height = radius*2
 	sphereMesh.material = material
 	
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
-	
-	get_tree().get_root().get_node("Main").add_child(meshInstance)
+	parent.get_node("Points").add_child(meshInstance)
 	
 	return meshInstance
 
-func line(orig:Vector3,dest:Vector3,color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
+func line(parent, orig:Vector3,dest:Vector3) -> MeshInstance3D:
 	var meshInstance = MeshInstance3D.new()
 	var immediateMesh = ImmediateMesh.new()
-	var material = ORMMaterial3D.new()
+	var material = selected_material
 	
 	meshInstance.cast_shadow = false
 	meshInstance.mesh = immediateMesh
@@ -36,20 +39,17 @@ func line(orig:Vector3,dest:Vector3,color:Color = Color.ALICE_BLUE) -> MeshInsta
 	immediateMesh.surface_add_vertex(dest+dir*1000)
 	immediateMesh.surface_end()
 	
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
-	
 	meshInstance.set_meta("p1", orig)
 	meshInstance.set_meta("p2", dest)
 	
-	get_tree().get_root().get_node("Main").add_child(meshInstance)
+	parent.get_node("Lines").add_child(meshInstance)
 	
 	return meshInstance
 
-func edge(orig:Vector3,dest:Vector3,color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
+func edge(parent, orig:Vector3,dest:Vector3) -> MeshInstance3D:
 	var meshInstance = MeshInstance3D.new()
 	var immediateMesh = ImmediateMesh.new()
-	var material = ORMMaterial3D.new()
+	var material = selected_material
 	
 	meshInstance.cast_shadow = false
 	meshInstance.mesh = immediateMesh
@@ -58,15 +58,15 @@ func edge(orig:Vector3,dest:Vector3,color:Color = Color.ALICE_BLUE) -> MeshInsta
 	immediateMesh.surface_add_vertex(orig)
 	immediateMesh.surface_add_vertex(dest)
 	immediateMesh.surface_end()
-	
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
+
 	meshInstance.set_meta("p1", orig)
 	meshInstance.set_meta("p2", dest)
 	
+	parent.get_node("Edges").add_child(meshInstance)
+	
 	return meshInstance
 	
-func plane(orig:Vector3,dest:Vector3,right:Vector3,color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
+func plane(orig:Vector3,dest:Vector3,right:Vector3, color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
 	var meshInstance = MeshInstance3D.new()
 	var immediateMesh = ImmediateMesh.new()
 	var material = ShaderMaterial.new()
@@ -91,11 +91,14 @@ func plane(orig:Vector3,dest:Vector3,right:Vector3,color:Color = Color.ALICE_BLU
 	return meshInstance
 
 func polyhedron(points, edges):
-	var model = Node3D.new()
+	var model = load("res://scenes/polyhedron.tscn").instantiate()
+	model.set_meta("material", selected_material)
 	get_tree().root.get_node("Main/Polyhedrons").add_child(model)
+	for p in points:
+		point(model,p)
 	for e in edges:
-		var drawn_edge = edge(points[e[0]],points[e[1]])
-		model.add_child(drawn_edge)
+		edge(model,points[e[0]],points[e[1]])
+	return model
 
 func sort_clockwise(points: Array) -> Array[Vector3]:
 	if points.size() < 3:
@@ -138,7 +141,7 @@ func sort_clockwise(points: Array) -> Array[Vector3]:
 	
 	return points
 	
-func polygon(points, color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
+func polygon(parent, points, color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
 	var meshInstance = MeshInstance3D.new()
 	var immediateMesh = ImmediateMesh.new()
 	var material = ShaderMaterial.new()
@@ -158,5 +161,5 @@ func polygon(points, color:Color = Color.ALICE_BLUE) -> MeshInstance3D:
 		
 	material.shader = shader
 	material.set_shader_parameter("color", color)
-	
+	parent.get_node("Faces").add_child(meshInstance)
 	return meshInstance

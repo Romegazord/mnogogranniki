@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dq8solvlgcxbt"]
+
+[node name="Polyhedron" type="Node3D" unique_id=1827177370]
+
+[node name="Points" type="Node3D" parent="." unique_id=2133908271]
+
+[node name="Edges" type="Node3D" parent="." unique_id=684315349]
+
+[node name="Faces" type="Node3D" parent="." unique_id=229072115]
+
+[node name="Lines" type="Node3D" parent="." unique_id=791304151]

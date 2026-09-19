@@ -3,19 +3,43 @@ extends CanvasLayer
 @onready var camera: Camera3D = get_node(get_meta("camera"))
 @onready var add_popup:PopupMenu = $TopBar/FlowContainer/Add.get_popup()
 @onready var tree_root = $RightSidebar/Tree.create_item()
+var selected_tool
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_popup.id_pressed.connect(add)
 	for btn:Button in $RightSidebar/Tools/ToolsScroll/FlowContainer.get_children():
 		btn.toggled.connect(func(toggled_on):
 			if toggled_on:
+				if selected_tool:
+					print(selected_tool)
+					if get_node("RightSidebar/Tools/ToolsScroll/FlowContainer/"+selected_tool).get_meta("OnUnpick"): 
+						Tools.call(get_node("RightSidebar/Tools/ToolsScroll/FlowContainer/"+selected_tool).get_meta("OnUnpick"))
+					get_node("RightSidebar/Tools/ToolsScroll/FlowContainer/"+selected_tool).button_pressed = false
+				selected_tool = btn.name
+				
 				if btn.get_meta("OnTouch"): camera.OnTouch = btn.get_meta("OnTouch")
 				if btn.get_meta("OnTouch"): camera.OnRelease = btn.get_meta("OnRelease")
 				if btn.get_meta("OnTouch"): camera.OnDrag = btn.get_meta("OnDrag")
+				if btn.get_meta("OnPick"): btn.get_meta("OnPick").call()
+					
+				if btn.get_meta("LocksRotation"):
+					$VFlowContainer/ToggleCameraRotation.button_pressed = true
+					$VFlowContainer/ToggleCameraRotation.disabled = true
+					Tools.lock_rotation = true
 			else:
+				if selected_tool == btn.name:
+					selected_tool = null
 				camera.OnTouch = null
 				camera.OnRelease = null
 				camera.OnDrag = null
+				
+				if btn.get_meta("OnUnpick"): Tools.call(btn.get_meta("OnUnpick"))
+				
+				if btn.get_meta("LocksRotation"):
+					$VFlowContainer/ToggleCameraRotation.button_pressed = false
+					$VFlowContainer/ToggleCameraRotation.disabled = false
+					Tools.lock_rotation = false
 			)
 
 
@@ -43,7 +67,8 @@ func _on_toggle_camera_zoom_toggled(toggled_on: bool) -> void:
 	Tools.lock_zoom = toggled_on
 	
 func add(id:int):
-	Draw3d.polyhedron(
+	Draw3d.selected_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	var p = Draw3d.polyhedron(
 		[Vector3(1,1,1),
 		Vector3(-1,1,1),
 		Vector3(1,-1,1),
@@ -69,3 +94,5 @@ func add(id:int):
 	)
 	var obj = $RightSidebar/Tree.create_item(tree_root)
 	obj.set_text(0,"Cube")
+	
+	Tools.selected_polyhedrons.append(p)
